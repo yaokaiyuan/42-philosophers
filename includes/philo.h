@@ -44,7 +44,6 @@ typedef struct s_data
 	pthread_mutex_t	write;
 	pthread_mutex_t	mutex;
 	t_philo			*philos;
-    t_philo			*dead_philo;
 }	t_data;
 
 int			init(t_data *data, int argc, char **argv);
