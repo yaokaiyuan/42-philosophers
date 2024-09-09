@@ -6,7 +6,7 @@
 #    By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 18:12:57 by ykai-yua          #+#    #+#              #
-#    Updated: 2024/09/09 20:21:47 by ykai-yua         ###   ########.fr        #
+#    Updated: 2024/09/09 23:31:01 by ykai-yua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS_DIR = srcs
 
 SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/philo.c \
-       $(SRCS_DIR)/init.c
+       $(SRCS_DIR)/init.c \
+       $(SRCS_DIR)/check.c
 
 OBJS = $(SRCS:.c=.o)
 
