@@ -1,25 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 18:12:49 by ykai-yua          #+#    #+#             */
+/*   Updated: 2024/09/09 22:48:35 by ykai-yua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void eat(t_philo *philo)
 {
     t_data *data = philo->data;
+    int first_fork = philo->left_fork < philo->right_fork ? philo->left_fork : philo->right_fork;
+    int second_fork = philo->left_fork < philo->right_fork ? philo->right_fork : philo->left_fork;
 
-    pthread_mutex_lock(&data->forks[philo->left_fork]);
+    pthread_mutex_lock(&data->forks[first_fork]);
     print_status(philo, "has taken a fork");
-    pthread_mutex_lock(&data->forks[philo->right_fork]);
-    print_status(philo, "has taken a fork");
-    if (check_death(data))
-    {
-        pthread_mutex_unlock(&data->forks[philo->left_fork]);
-        pthread_mutex_unlock(&data->forks[philo->right_fork]);
+    if (check_death(data)) {
+        pthread_mutex_unlock(&data->forks[first_fork]);
         return;
     }
+    pthread_mutex_lock(&data->forks[second_fork]);
+    print_status(philo, "has taken a fork");
+
+    if (check_death(data))
+    {
+        pthread_mutex_unlock(&data->forks[first_fork]);
+        pthread_mutex_unlock(&data->forks[second_fork]);
+        return;
+    }
+    
     print_status(philo, "is eating");
     philo->last_eat = get_time();
     usleep(data->time_to_eat * 1000);
     philo->eat_count++;
-    pthread_mutex_unlock(&data->forks[philo->left_fork]);
-    pthread_mutex_unlock(&data->forks[philo->right_fork]);
+    pthread_mutex_unlock(&data->forks[first_fork]);
+    pthread_mutex_unlock(&data->forks[second_fork]);
 }
 
 void sleep_think(t_philo *philo)
@@ -44,12 +64,11 @@ void *philosopher(void *arg)
     }
     if (philo->id % 2 == 0)
         usleep(1000);
-    while (!data->dead && (data->must_eat == -1 || philo->eat_count < data->must_eat))
+    while (!check_death(data) && (data->must_eat == -1 || philo->eat_count < data->must_eat))
     {
-        if (data->dead)
-            break;
         eat(philo);
-        sleep_think(philo);
+		if (!check_death(data))
+			sleep_think(philo);
     }
     return (NULL);
 }
@@ -59,21 +78,32 @@ int check_death(t_data *data)
     int i;
     long long current_time;
 
-    i = -1;
-    while (++i < data->num_of_philos)
+    pthread_mutex_lock(&data->mutex);
+    current_time = get_time();
+    for (i = 0; i < data->num_of_philos; i++)
     {
-        pthread_mutex_lock(&data->mutex);
-        current_time = get_time();
         if (current_time - data->philos[i].last_eat > data->time_to_die)
         {
-            print_status(&data->philos[i], "died");
-            data->dead = 1;  // 设置死亡标志
             pthread_mutex_unlock(&data->mutex);
-            return (1);
+            print_died(&data->philos[i]);
+            return 1;
         }
-        pthread_mutex_unlock(&data->mutex);
     }
-    return (0);
+    pthread_mutex_unlock(&data->mutex);
+    return (data->dead);
+}
+
+void print_died(t_philo *philo)
+{
+    t_data *data = philo->data;
+
+    pthread_mutex_lock(&data->write);
+    if (!data->dead)
+    {
+        printf("%lld %d died\n", get_time() - data->start_time, philo->id);
+        data->dead = 1;
+    }
+    pthread_mutex_unlock(&data->write);
 }
 
 void print_status(t_philo *philo, char *status)

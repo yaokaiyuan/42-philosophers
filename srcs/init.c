@@ -1,16 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 18:12:27 by ykai-yua          #+#    #+#             */
+/*   Updated: 2024/09/09 21:49:53 by ykai-yua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int init_mutexes(t_data *data)
 {
     int i;
 
+	i = 0;
     data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
     if (!data->forks)
         return (1);
-    for (i = 0; i < data->num_of_philos; i++)
-        if (pthread_mutex_init(&data->forks[i], NULL))
-            return (1);
-    if (pthread_mutex_init(&data->write, NULL))
+    while (i < data->num_of_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			return (1);
+		i++;
+	}
+	if (pthread_mutex_init(&data->write, NULL) || pthread_mutex_init(&data->mutex, NULL))
         return (1);
     return (0);
 }
@@ -19,17 +35,19 @@ static int init_philos(t_data *data)
 {
     int i;
 
+	i = 0;
     data->philos = malloc(sizeof(t_philo) * data->num_of_philos);
     if (!data->philos)
         return (1);
-    for (i = 0; i < data->num_of_philos; i++)
+    while (i < data->num_of_philos)
     {
         data->philos[i].id = i + 1;
         data->philos[i].left_fork = i;
         data->philos[i].right_fork = (i + 1) % data->num_of_philos;
         data->philos[i].eat_count = 0;
         data->philos[i].last_eat = get_time();
-        data->philos[i].data = data;
+		data->philos[i].data = data;
+		i++;
     }
     return (0);
 }

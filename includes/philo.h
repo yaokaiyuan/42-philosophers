@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 18:12:13 by ykai-yua          #+#    #+#             */
+/*   Updated: 2024/09/09 22:46:56 by ykai-yua         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -6,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <string.h>
 
 typedef struct s_philo
 {
@@ -40,5 +53,6 @@ void    sleep_think(t_philo *philo);
 int     check_death(t_data *data);
 long long get_time(void);
 void    print_status(t_philo *philo, char *status);
+void    print_died(t_philo *philo);
 
 #endif
