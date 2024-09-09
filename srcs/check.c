@@ -24,9 +24,13 @@ int	check_death(t_data *data)
 	{
 		if (current_time - data->philos[i].last_eat > data->time_to_die)
 		{
-			pthread_mutex_unlock(&data->mutex);
-			print_died(&data->philos[i]);
-			return (1);
+			if (!data->dead)
+			{
+				data->dead = 1;
+				pthread_mutex_unlock(&data->mutex);
+				print_died(&data->philos[i]);
+				return (1);
+			}
 		}
 		i++;
 	}
@@ -40,11 +44,8 @@ void	print_died(t_philo *philo)
 
 	data = philo->data;
 	pthread_mutex_lock(&data->write);
-	if (!data->dead)
-	{
+	if (data->dead)
 		printf("%lld %d died\n", get_time() - data->start_time, philo->id);
-		data->dead = 1;
-	}
 	pthread_mutex_unlock(&data->write);
 }
 

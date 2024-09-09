@@ -12,25 +12,24 @@
 
 #include "philo.h"
 
-static void	take_forks(t_philo *philo, int first_fork, int second_fork)
+static void	take_forks(t_philo *philo)
 {
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->forks[first_fork]);
+	pthread_mutex_lock(&data->forks[philo->left_fork]);
 	print_status(philo, "has taken a fork");
-	if (check_death(data))
-	{
-		pthread_mutex_unlock(&data->forks[first_fork]);
-		return ;
-	}
-	pthread_mutex_lock(&data->forks[second_fork]);
+	pthread_mutex_lock(&data->forks[philo->right_fork]);
 	print_status(philo, "has taken a fork");
-	if (check_death(data))
-	{
-		pthread_mutex_unlock(&data->forks[first_fork]);
-		pthread_mutex_unlock(&data->forks[second_fork]);
-	}
+}
+
+static void	release_forks(t_philo *philo)
+{
+	t_data	*data;
+
+	data = philo->data;
+	pthread_mutex_unlock(&data->forks[philo->left_fork]);
+	pthread_mutex_unlock(&data->forks[philo->right_fork]);
 }
 
 static void	eating(t_philo *philo)
@@ -39,35 +38,20 @@ static void	eating(t_philo *philo)
 
 	data = philo->data;
 	print_status(philo, "is eating");
+	pthread_mutex_lock(&data->mutex);
 	philo->last_eat = get_time();
-	usleep(data->time_to_eat * 1000);
+	pthread_mutex_unlock(&data->mutex);
+	ft_usleep(data->time_to_eat);
+	pthread_mutex_lock(&data->mutex);
 	philo->eat_count++;
+	pthread_mutex_unlock(&data->mutex);
 }
 
 void	eat(t_philo *philo)
 {
-	t_data	*data;
-	int		first_fork;
-	int		second_fork;
-
-	data = philo->data;
-	if (philo->left_fork < philo->right_fork)
-	{
-		first_fork = philo->left_fork;
-		second_fork = philo->right_fork;
-	}
-	else
-	{
-		first_fork = philo->right_fork;
-		second_fork = philo->left_fork;
-	}
-	take_forks(philo, first_fork, second_fork);
-	if (!check_death(data))
-	{
-		eating(philo);
-		pthread_mutex_unlock(&data->forks[first_fork]);
-		pthread_mutex_unlock(&data->forks[second_fork]);
-	}
+	take_forks(philo);
+	eating(philo);
+	release_forks(philo);
 }
 
 void	sleep_think(t_philo *philo)
@@ -87,13 +71,12 @@ void	*philosopher(void *arg)
 	if (data->num_of_philos == 1)
 	{
 		print_status(philo, "has taken a fork");
-		usleep(data->time_to_die * 1000);
+		ft_usleep(data->time_to_die);
 		print_status(philo, "died");
-		data->dead = 1;
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		usleep(1000);
+		ft_usleep(data->time_to_eat / 2);
 	while (!check_death(data) && (data->must_eat == -1
 			|| philo->eat_count < data->must_eat))
 	{

@@ -44,6 +44,7 @@ typedef struct s_data
 	pthread_mutex_t	write;
 	pthread_mutex_t	mutex;
 	t_philo			*philos;
+    t_philo			*dead_philo;
 }	t_data;
 
 int			init(t_data *data, int argc, char **argv);
@@ -54,5 +55,6 @@ int			check_death(t_data *data);
 long long	get_time(void);
 void		print_status(t_philo *philo, char *status);
 void		print_died(t_philo *philo);
+void		ft_usleep(int ms);
 
 #endif

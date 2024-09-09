@@ -70,12 +70,11 @@ int	main(int argc, char **argv)
 	if (init(&data, argc, argv))
 		return (1);
 	create_threads(&data);
-	while (!data.dead)
-	{
-		if (check_death(&data))
-			break ;
-		usleep(1000);
-	}
+    while (!data.dead && data.num_of_philos > 1)
+    {
+	    check_death(&data);
+	    usleep(1000);
+    }
 	join_threads(&data);
 	cleanup(&data);
 	return (0);
