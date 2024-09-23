@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:27 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/09 23:01:06 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:36:16 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ typedef struct s_data
 	int				dead;
 	long long		start_time;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	write;
 	pthread_mutex_t	mutex;
 	t_philo			*philos;
 }	t_data;
@@ -55,5 +54,7 @@ long long	get_time(void);
 void		print_status(t_philo *philo, char *status);
 void		print_died(t_philo *philo);
 void		ft_usleep(int ms);
+int			check_full(t_data *data);
+int			ft_atoi(const char *str);
 
 #endif

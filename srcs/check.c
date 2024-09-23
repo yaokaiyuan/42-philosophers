@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:30:33 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/09 23:35:43 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/09/23 19:19:51 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	print_died(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->write);
+	pthread_mutex_lock(&data->mutex);
 	if (data->dead)
 		printf("%lld %d died\n", get_time() - data->start_time, philo->id);
-	pthread_mutex_unlock(&data->write);
+	pthread_mutex_unlock(&data->mutex);
 }
 
 void	print_status(t_philo *philo, char *status)
@@ -54,11 +54,11 @@ void	print_status(t_philo *philo, char *status)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->write);
+	pthread_mutex_lock(&data->mutex);
 	if (!data->dead)
 		printf("%lld %d %s\n", get_time() - data->start_time,
 			philo->id, status);
-	pthread_mutex_unlock(&data->write);
+	pthread_mutex_unlock(&data->mutex);
 }
 
 long long	get_time(void)
@@ -67,4 +67,23 @@ long long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+int	check_full(t_data *data)
+{
+	int	i;
+
+	pthread_mutex_lock(&data->mutex);
+	i = 0;
+	while (i < data->num_of_philos)
+	{
+		if (data->philos[i].eat_count < data->must_eat)
+		{
+			pthread_mutex_unlock(&data->mutex);
+			return (0);
+		}
+		i++;
+	}
+	pthread_mutex_unlock(&data->mutex);
+	return (1);
 }
