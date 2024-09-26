@@ -27,7 +27,6 @@ int	check_death(t_data *data)
 			if (!data->dead)
 			{
 				data->dead = 1;
-				pthread_mutex_unlock(&data->mutex);
 				print_died(&data->philos[i]);
 				return (1);
 			}
@@ -43,9 +42,7 @@ void	print_died(t_philo *philo)
 	t_data	*data;
 
 	data = philo->data;
-	pthread_mutex_lock(&data->mutex);
-	if (data->dead)
-		printf("%lld %d died\n", get_time() - data->start_time, philo->id);
+	printf("%lld %d died\n", get_time() - data->start_time, philo->id);
 	pthread_mutex_unlock(&data->mutex);
 }
 
@@ -84,6 +81,7 @@ int	check_full(t_data *data)
 		}
 		i++;
 	}
+	data->dead = 1;
 	pthread_mutex_unlock(&data->mutex);
 	return (1);
 }

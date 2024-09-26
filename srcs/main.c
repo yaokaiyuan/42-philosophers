@@ -32,9 +32,9 @@ void	*philosopher(void *arg)
 			|| !check_full(data)))
 	{
 		eat(philo);
-		if (!check_death(data) && data->must_eat == -1)
-			sleep_think(philo);
-		else if (!check_death(data) && !check_full(data))
+		if (check_death(data) || check_full(data))
+			break ;
+		else
 			sleep_think(philo);
 	}
 	return (NULL);
@@ -98,14 +98,6 @@ int	main(int argc, char **argv)
 	if (init(&data, argc, argv))
 		return (1);
 	create_threads(&data);
-	while (!data.dead && data.num_of_philos > 1)
-	{
-		if (check_death(&data))
-			break ;
-		if (data.must_eat != -1 && check_full(&data))
-			break ;
-		usleep(10);
-	}
 	join_threads(&data);
 	cleanup(&data);
 	return (0);
