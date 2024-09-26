@@ -18,6 +18,11 @@ int	check_death(t_data *data)
 	long long	current_time;
 
 	pthread_mutex_lock(&data->mutex);
+	if (data->dead == 1)
+	{
+		pthread_mutex_unlock(&data->mutex);
+		return (1);
+	}
 	current_time = get_time();
 	i = 0;
 	while (i < data->num_of_philos)
@@ -34,7 +39,7 @@ int	check_death(t_data *data)
 		i++;
 	}
 	pthread_mutex_unlock(&data->mutex);
-	return (data->dead);
+	return (0);
 }
 
 void	print_died(t_philo *philo)
