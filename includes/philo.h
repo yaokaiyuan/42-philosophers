@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:27 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/10/05 11:29:26 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:23:45 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ typedef struct s_data
 int			init(t_data *data, int argc, char **argv);
 void		*philosopher(void *arg);
 void		eat(t_philo *philo);
-void		sleep_think(t_philo *philo);
+void		sleepna(t_philo *philo);
+void		think(t_philo *philo);
 int			check_death(t_data *data);
 long long	get_time(void);
 void		print_status(t_philo *philo, char *status);
@@ -56,5 +57,6 @@ void		print_died(t_philo *philo);
 void		ft_msleep(int ms);
 int			check_full(t_data *data);
 int			ft_atoi(const char *str);
+void		take_fork_and_die(t_philo *philo);
 
 #endif

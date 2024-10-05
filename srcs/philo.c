@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:49 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/10/05 11:31:58 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:20:40 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@ void	eat(t_philo *philo)
 	release_forks(philo);
 }
 
-void	sleep_think(t_philo *philo)
+void	sleepna(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
 	usleep(philo->data->time_to_sleep * 1000);
-	print_status(philo, "is thinking");
 }

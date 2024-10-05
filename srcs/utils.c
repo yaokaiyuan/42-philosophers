@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:24:22 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/10/05 08:03:56 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:25:19 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,17 @@ long long	get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	think(t_philo *philo)
+{
+	print_status(philo, "is thinking");
+	usleep(philo->data->time_to_sleep * 1000);
+}
+
+void	take_fork_and_die(t_philo *philo)
+{
+	print_status(philo, "has taken a fork");
+	ft_msleep(philo->data->time_to_die);
+	print_status(philo, "died");
 }
