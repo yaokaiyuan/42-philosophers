@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:40 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/10/05 08:40:29 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 11:28:29 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ void	*philosopher(void *arg)
 		ft_msleep(data->time_to_eat / 2);
 	while (1)
 	{
-		if (check_death(data))
-			break ;
-		eat(philo);
+		if (!check_death(data) && (data->must_eat == -1 || !check_full(data)))
+			eat(philo);
 		if (!check_death(data) && (data->must_eat == -1 || !check_full(data)))
 			sleep_think(philo);
 		else
