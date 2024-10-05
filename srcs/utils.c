@@ -6,13 +6,13 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 18:24:22 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/23 19:36:06 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:03:56 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(int ms)
+void	ft_msleep(int ms)
 {
 	long long	start;
 	long long	elapsed;
@@ -50,4 +50,12 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (result * sign);
+}
+
+long long	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }

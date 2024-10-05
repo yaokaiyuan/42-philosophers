@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:27 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/23 19:36:16 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:02:08 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			check_death(t_data *data);
 long long	get_time(void);
 void		print_status(t_philo *philo, char *status);
 void		print_died(t_philo *philo);
-void		ft_usleep(int ms);
+void		ft_msleep(int ms);
 int			check_full(t_data *data);
 int			ft_atoi(const char *str);
 

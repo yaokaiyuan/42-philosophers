@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:49 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/23 19:38:40 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:01:58 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	eating(t_philo *philo)
 	pthread_mutex_lock(&data->mutex);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&data->mutex);
-	ft_usleep(data->time_to_eat);
+	ft_msleep(data->time_to_eat);
 	pthread_mutex_lock(&data->mutex);
 	philo->eat_count++;
 	pthread_mutex_unlock(&data->mutex);

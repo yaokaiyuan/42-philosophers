@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:40 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/23 19:38:57 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:40:29 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,21 @@ void	*philosopher(void *arg)
 	if (data->num_of_philos == 1)
 	{
 		print_status(philo, "has taken a fork");
-		ft_usleep(data->time_to_die);
+		ft_msleep(data->time_to_die);
 		print_status(philo, "died");
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		ft_usleep(data->time_to_eat / 2);
-	while (!check_death(data) && (data->must_eat == -1
-			|| !check_full(data)))
+		ft_msleep(data->time_to_eat / 2);
+	while (1)
 	{
+		if (check_death(data))
+			break ;
 		eat(philo);
-		if (!check_death(data) && data->must_eat == -1)
+		if (!check_death(data) && (data->must_eat == -1 || !check_full(data)))
 			sleep_think(philo);
-		else if (!check_death(data) && !check_full(data))
-			sleep_think(philo);
+		else
+			break ;
 	}
 	return (NULL);
 }

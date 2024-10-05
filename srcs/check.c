@@ -6,23 +6,32 @@
 /*   By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:30:33 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/09/23 19:19:51 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/10/05 08:25:33 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_death(t_data *data)
+static int	check_already_dead(t_data *data)
 {
-	int			i;
-	long long	current_time;
-
 	pthread_mutex_lock(&data->mutex);
 	if (data->dead == 1)
 	{
 		pthread_mutex_unlock(&data->mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&data->mutex);
+	return (0);
+}
+
+int	check_death(t_data *data)
+{
+	int			i;
+	long long	current_time;
+
+	if (check_already_dead(data))
+		return (1);
+	pthread_mutex_lock(&data->mutex);
 	current_time = get_time();
 	i = 0;
 	while (i < data->num_of_philos)
@@ -63,14 +72,6 @@ void	print_status(t_philo *philo, char *status)
 	pthread_mutex_unlock(&data->mutex);
 }
 
-long long	get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
 int	check_full(t_data *data)
 {
 	int	i;
@@ -86,7 +87,6 @@ int	check_full(t_data *data)
 		}
 		i++;
 	}
-	data->dead = 1;
 	pthread_mutex_unlock(&data->mutex);
 	return (1);
 }
