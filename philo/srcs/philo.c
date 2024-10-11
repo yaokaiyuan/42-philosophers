@@ -67,4 +67,5 @@ void	eat(t_philo *philo)
 void	sleepna(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
+	usleep(philo->data->time_to_sleep * 1000);
 }

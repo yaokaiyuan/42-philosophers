@@ -68,9 +68,11 @@ int	init(t_data *data, int argc, char **argv)
 		return (1);
 	data->must_eat = -1;
 	if (argc == 6)
+	{
 		data->must_eat = ft_atoi(argv[5]);
-	if (data->must_eat == 0 || ft_check_overflow(argv[5]))
-		return (1);
+		if (data->must_eat == 0 || ft_check_overflow(argv[5]))
+			return (1);
+	}
 	data->dead = 0;
 	data->start_time = get_time();
 	if (init_mutexes(data) || init_philos(data))

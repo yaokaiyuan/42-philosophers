@@ -57,7 +57,6 @@ long long	get_time(void)
 void	think(t_philo *philo)
 {
 	print_status(philo, "is thinking");
-	usleep(philo->data->time_to_sleep * 1000);
 }
 
 void	take_fork_and_die(t_philo *philo)
