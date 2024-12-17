@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ykai-yua <ykai-yua@student.42.fr>          +#+  +:+       +#+         #
+#    By: ykai-yua <ykai-yua@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 18:12:57 by ykai-yua          #+#    #+#              #
-#    Updated: 2024/10/05 15:25:04 by ykai-yua         ###   ########.fr        #
+#    Updated: 2024/12/17 16:28:46 by ykai-yua         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,11 @@ SRCS_DIR = srcs
 SRCS = $(SRCS_DIR)/main.c \
        $(SRCS_DIR)/philo.c \
        $(SRCS_DIR)/init.c \
-       $(SRCS_DIR)/check.c \
-	   $(SRCS_DIR)/utils.c \
-	   $(SRCS_DIR)/parse.c
+       $(SRCS_DIR)/free.c \
+	   $(SRCS_DIR)/monitor.c \
+	   $(SRCS_DIR)/parcing.c \
+	   $(SRCS_DIR)/print.c \
+	   $(SRCS_DIR)/time.c
 
 OBJS = $(SRCS:.c=.o)
 
