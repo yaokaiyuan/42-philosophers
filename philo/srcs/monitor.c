@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 12:39:48 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/12/17 16:40:14 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:26:01 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	set_sim_stop_flag(t_data *data, bool state)
 {
 	pthread_mutex_lock(&data->stop_lock);
-		data->stop_time = state;
+	data->stop_time = state;
 	pthread_mutex_unlock(&data->stop_lock);
 }
 
@@ -48,8 +48,8 @@ static bool	kill_philo(t_philo *philo)
 
 static bool	end_condition_reached(t_data *data)
 {
-	int	i;
-	bool			all_ate_enough;
+	int		i;
+	bool	all_ate_enough;
 
 	all_ate_enough = true;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 12:42:03 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/12/17 16:38:41 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:27:13 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ static bool	start_simulation(t_data *data)
 	{
 		if (pthread_create(&data->philos[i]->thread, NULL,
 				&philosopher, data->philos[i]) != 0)
-			return (error_failure("%s error:  cannot create thread.\n", NULL, data));
+			return (error_failure("%s error:  cannot create thread.\n"
+					, NULL, data));
 		i++;
 	}
 	if (data->num_of_philos > 1)
 	{
 		if (pthread_create(&data->monitor, NULL,
 				&monitor, data) != 0)
-			return (error_failure("%s error: cannot create thread.\n", NULL, data));
+			return (error_failure("%s error: cannot create thread.\n"
+					, NULL, data));
 	}
 	return (true);
 }

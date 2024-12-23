@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 12:40:57 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/12/17 16:39:13 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:40:21 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static pthread_mutex_t	*init_forks(t_data *data)
 {
 	pthread_mutex_t	*forks;
-	int	i;
+	int				i;
 
 	forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	if (!forks)
@@ -43,8 +43,8 @@ static void	assign_forks(t_philo *philo)
 
 static t_philo	**init_philosophers(t_data *data)
 {
-	t_philo			**philos;
-	int	i;
+	t_philo	**philos;
+	int		i;
 
 	philos = malloc(sizeof(t_philo) * data->num_of_philos);
 	if (!philos)
@@ -60,6 +60,7 @@ static t_philo	**init_philosophers(t_data *data)
 		philos[i]->data = data;
 		philos[i]->id = i;
 		philos[i]->eat_count = 0;
+		philos[i]->last_eat = get_time_in_ms();
 		assign_forks(philos[i]);
 		i++;
 	}
