@@ -6,7 +6,7 @@
 /*   By: ykai-yua <ykai-yua@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 18:12:27 by ykai-yua          #+#    #+#             */
-/*   Updated: 2024/12/17 16:38:09 by ykai-yua         ###   ########.fr       */
+/*   Updated: 2024/12/23 15:45:12 by ykai-yua         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_data	*init_table(int ac, char **av, int i);
 bool	has_simulation_stopped(t_data *data);
 void	*monitor(void *input);
 
-int	integer_atoi(char *str);
+int		integer_atoi(char *str);
 bool	is_valid_input(int ac, char **av);
 
 void	*philosopher(void *data);
@@ -78,7 +78,7 @@ time_t	get_time_in_ms(void);
 void	philo_sleep(t_data *data, time_t sleep_time);
 void	sim_start_delay(time_t start_time);
 
-int	main(int ac, char **av);
+int		main(int ac, char **av);
 
 void	write_status(t_philo *philo, bool reaper_report, t_status status);
 
